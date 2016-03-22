@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="demo.css"/>
+    <link type="text/css" rel="stylesheet" href="src/table-populator.css"/>
+    <script src="http://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+            integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="src/table-populator.js"></script>
+</head>
+<body>
+
+
+
+    <div class="search">
+        <input type="text" id="search-input" placeholder="Search ..."/>
+
+    </div>
+
+    <table id="test-table" class="sticky-thead">
+        <thead>
+        <th data-sort-key="username">User name</th>
+        <th data-sort-key="email">Email</th>
+        <th data-sort-key="age">Age</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <div style="text-align:center;">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('#test-table').tablePopulator({
+            fetch_url: "http://falling-wind-2227.getsandbox.com/users",
+            previous_button_selector: "#prev",
+            next_button_selector: "#next",
+            pagination_limit: 5,
+            search_field_selector: "#search-input",
+            row_mapper: function (json_element, row_element) {
+                row_element[0] = json_element.username
+                row_element[1] = json_element.email
+                row_element[2] = json_element.age
+            }
+        });
+    });
+
+
+</script>
+</html>
