@@ -42,7 +42,10 @@
         },
         search: function (query) {
             _realPlugin.search(query);
-        }
+        },
+        reload: function (query) {
+        _realPlugin.reload();
+    }
 
     });
 
@@ -135,6 +138,10 @@ function tablePopulator($element, options) {
         _wrapTable();
         _cleanUpTableBody();
         _setInitialUI();
+        _fetchData();
+    }
+
+    function _reload() {
         _fetchData();
     }
 
@@ -522,6 +529,9 @@ function tablePopulator($element, options) {
         search: function (query) {
             _status.query = query;
             _fetchData();
+        },
+        reload: function() {
+            _reload();
         }
     }
 }

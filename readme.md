@@ -124,7 +124,40 @@ This plugin automatically add two params, *order_by* and *sort* to the ajax call
 | save_table_status_store_key			| String 	| no  | 	| (When save_table_status is enabled) Key to store on browser repository
 | save_table_session_expiration			| Boolean 	| no  | false	| (When save_table_status is enabled) Set to true if you want to save only in session scope
 | beforeRender				| Function 	| no  | 		| Triggered before render the results obtained
-| afterRender				| Function 	| no  | 		| Triggered after render the results obtained
+| afterRender				| Function 	| no  | 		| Triggered after render the results obtained ( if you want to apply javascript plugins to decorate for example )
+
+
+## plugin functions ##
+
+### reload ###
+
+If you want to reload manually table populator :
+```javascript
+<script>
+    $(document).ready(function () {
+        var populator = $('#test-table').tablePopulator({
+            fetch_url: "http://some_json_url.json",
+            previous_button_selector: "#prev",
+            next_button_selector: "#next",
+            pagination_limit: 5,
+            search_field_selector: "#search-input",
+            row_mapper: function (json_element, row_element) {
+                row_element[0] = json_element.username
+                row_element[1] = json_element.email
+                row_element[2] = json_element.age
+            }
+        });
+        $('#manual-reload').click(function () {
+            populator.tablePopulator("reload");
+        });
+    });
+```
+
+
+
+</script>
+
+
 
 ## Global pagination status ##
 
