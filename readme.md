@@ -2,7 +2,21 @@
 
 Table populator is a intuitive and easier Jquery plugin to populate html 5 tables ajaxly.
 
+## Live demo ##
+
 [Live demo](https://jsfiddle.net/albertortizl/v7dgqyq2/)
+
+## Try it yourself ##
+
+If you want try in your local machine download or clone this project and first of run mini app provided :
+
+[fake-app](users-fake-api-node.tar.gz)
+
+Then run demo.html in your browser!
+
+Enjoy!!!!
+
+
 
 ## Basic Usage ##
 
