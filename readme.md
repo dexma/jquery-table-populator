@@ -1,6 +1,6 @@
 # Table populator plugin #
 
-Table populator is a intuitive and easier Jquery plugin to populate html 5 tables ajaxly.
+Table populator is a intuitive and easy Jquery plugin to populate html 5 tables with remote data (ajax)
 
 ## Live demo ##
 
@@ -116,7 +116,7 @@ To get the data asynchronously this plugin makes a HTTP call:
 
 ## Sorting fields##
 
-If you want to sort fields ajaxly you only have to add a custom attribute in your desired table headers
+If you want to sort fields remotely you only have to add a custom attribute in your desired table headers
 ```html
 <th data-sort-key="name" >Nombre</th>
 ```
@@ -175,11 +175,13 @@ If you want to reload manually table populator :
 
 ## Global pagination status ##
 
-This plugin doesn't contain information about how many elements are in total, in which number of page you are or the posibility of go to a some page.
+This plugin does'nt contains information about how many elements are in total, in which number of page you are or the possibility to go to
+ an specific number of page.
 
-This plugin only contains a ***previous button*** and a ***next button*** because it tryes to avoid complexity and overqueries on server like select counts.
+This plugin only contains a ***previous button*** and a ***next button*** because it tries to avoid complexity and overload with queries on 
+server (like select counts).
 
-In 99% of cases you doesn't need that kind of information, sorting and filtering is enough.
+In 99% of cases you does'nt need that kind of information, sorting and filtering is enough.
 
 But, if you need to show that information this plugin provide a custom option to do that:
 
