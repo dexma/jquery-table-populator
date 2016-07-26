@@ -247,6 +247,10 @@ Populate plugin will make an http call with same params as fetch call.
         });
 ``` 
 
+## Cross domain ##
+
+Remember if you want to use this plugin doing cross-domain you have to attack against apis with CORS enabled! 
+
 ## CSS customization ##
 
 If you want to change loading image or sorting icons modify css provided with the plugin or override css in your page.
