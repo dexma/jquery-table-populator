@@ -481,7 +481,7 @@ function tablePopulator($element, options) {
 
 
     function _handlePagination(jsonArray) {
-        if (jsonArray.length > _limit) {
+        while (jsonArray.length > _limit) {
             jsonArray.pop();
             _enableNextButton(true);
         }
