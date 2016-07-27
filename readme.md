@@ -244,6 +244,12 @@ Populate plugin will make an http call with same params as fetch call.
             beforeRender: function (jsonData) {
             },
             afterRender: function (jsonData) {
+                // used to apply UI plugins after render the table, for example render checkboxes 
+            },
+            mapResultOnReceive: function(jsonData) {
+                 // used to transform data before render, for example if your respoinse has an envelop or you want to transform some data 
+                var transformed = ... // extract or transform data
+                return transformed;
             }
         });
 ``` 
