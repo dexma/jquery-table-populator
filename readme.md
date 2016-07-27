@@ -133,6 +133,8 @@ This plugin automatically add two params, *order_by* and *sort* to the ajax call
 | next_button_selector 		| String    | yes | 		| valid jquery button selector to trigger the data
 | row_mapper				| Function 	| yes | 		| function called when parsing the data received from server, It must make the making from a single json element to a array row
 | search_field_selector		| String 	| no  | 		| valid jquery input selector to trigger the data if you want to search
+| default_order_field       | String    | no  |          | default order-sort-key  
+| default_sort              | String    | no  |   ASC    | default sorting direction 
 | pagination_limit			| Integer 	| no  |20 		| pagination limit
 | save_table_status			| Boolean 	| no  | false	| Set to true if you want to save status table in a browser database between pages
 | save_table_status_store_key			| String 	| no  | 	| (When save_table_status is enabled) Key to store on browser repository
@@ -234,7 +236,7 @@ Populate plugin will make an http call with same params as fetch call.
             pagination_global_status: {
                 enabled: true,
                 print_selector: "#global status span",
-                url_counter: /count.json,
+                url_counter: "/count.json",
                 separator: "/",
                 of_literal: "of"
             },

@@ -44,8 +44,8 @@
             _realPlugin.search(query);
         },
         reload: function (query) {
-        _realPlugin.reload();
-    }
+            _realPlugin.reload();
+        }
 
     });
 
@@ -72,6 +72,8 @@ function tablePopulator($element, options) {
         save_table_session_expiration: false,
         fetch_url: null,
         previous_button_selector: null,
+        default_order_field: null,
+        default_sort: "DESC",
         next_button_selector: null,
         search_field_selector: null,
         pagination_limit: 20,
@@ -86,7 +88,7 @@ function tablePopulator($element, options) {
             alert("please implement row_mapper function to print results")
         },
         mapResultOnReceive: function (jsonData) {
-          return jsonData;
+            return jsonData;
         },
         beforeRender: function (jsonData) {
         },
@@ -112,10 +114,9 @@ function tablePopulator($element, options) {
     };
 
     var _status = {
-        order_field: null,
-        sort: null,
+        order_field: _options.default_order_field,
+        sort: _options.default_sort,
         query: "",
-        sort_index: null,
         offset: 0
     };
 
@@ -133,7 +134,7 @@ function tablePopulator($element, options) {
         _validatePluginDefaults();
         _setupStorage();
         _activatePaginationTriggers();
-        _activateSortingTriggers();
+        _activateSortingTriggersInTableHeaders();
         _activateSearchTriggers();
         _setUpGlobalStatus();
         _enableNextButton(false);
@@ -151,7 +152,7 @@ function tablePopulator($element, options) {
     function _setupStorage() {
         if (_options.save_table_status) {
             if (typeof localStorage !== 'undefined') {
-                if(_options.save_table_session_expiration) {
+                if (_options.save_table_session_expiration) {
                     console.log("local storage time to live => always");
                     _storage = sessionStorage;
                 } else {
@@ -348,7 +349,7 @@ function tablePopulator($element, options) {
 
     function _refreshGlobalStatusPagination() {
         if (_options.pagination_global_status.enabled) {
-            if(_status.offset + _$tbody.find('tr').length > 0) {
+            if (_status.offset + _$tbody.find('tr').length > 0) {
                 _globalStatus.$from.html(_status.offset + 1);
             } else {
                 _globalStatus.$from.html(0);
@@ -436,49 +437,72 @@ function tablePopulator($element, options) {
         }
     }
 
-    function _activateSortingTriggers() {
 
-        _$table.find('thead tr th[data-sort-key]').each(function (index) {
-            $(this).css({'cursor': 'pointer'});
-            $(this).addClass('table_populator_sortable')
-            $(this).click(function () {
-                _status.order_field = $(this).data('sort-key');
-                _assignSort(index);
-                _refreshStorage();
-                _fetchData();
-            })
-        });
-        if (_status.sort_index)
-            _assignSort(_status.sort_index);
-        else
-            _assignSort(0);
-
-    }
-
-    function _assignSort(index) {
-
-        if (_$table.find('thead tr th[data-sort-key]').length > 0) {
-            var $th = $(_$table.find('thead tr th[data-sort-key]')[index]);
-
-            _status.sort_index = index;
-            _status.order_field = $th.data('sort-key');
-
-
-            var desc = $th.hasClass('sort_up') || (!$th.hasClass('sort_down') && _status.sort == "DESC");
-            _$table.find('thead tr th[data-sort-key]').each(function () {
-                $(this).removeClass('sort_down sort_up')
-            });
-            if (desc) {
-                $th.addClass('sort_down');
-
-                _status.sort = "DESC";
-            } else {
-                $th.addClass('sort_up');
-                _status.sort = "ASC";
+    function _initSortingDefaults() {
+        // if there is some defaults set
+        if (_status.order_field != null) {
+            _assignSort(_status.order_field, _status.sort);
+        }
+        // else get the first header sortable and make it the selected one
+        else {
+            var thList = _$table.find('thead tr th[data-sort-key]');
+            if (thList.length > 0) {
+                var orderField = $(thList[0]).data('sort-key');
+                _status.order_field = orderField;
+                _assignSort(orderField, _status.sort);
             }
         }
     }
 
+    function _activateSortingTriggersInTableHeaders() {
+
+        // foreach header with custom data  'sort-key', that means header sorteable
+        _$table.find('thead tr th[data-sort-key]').each(function () {
+            // add cursor
+            $(this).css({'cursor': 'pointer'});
+            // add generic css class for UI arrows
+            $(this).addClass('table_populator_sortable');
+            // add trigger when click
+            $(this).click(function () {
+                _status.order_field = $(this).data('sort-key');
+                _assignSort(_status.order_field, null);
+                _refreshStorage();
+                _fetchData();
+            })
+        });
+        _initSortingDefaults();
+
+    }
+
+    function _assignSort(orderField, sortDirection) {
+
+        _$table.find('thead tr th[data-sort-key]').each(function () {
+            if ($(this).data('sort-key') != orderField) {
+                $(this).removeClass('sort_down sort_up');
+            }
+        });
+
+        var $th = _$table.find("thead tr th[data-sort-key='" + orderField + "']");
+        if ($th) {
+            var desc;
+            if (sortDirection != null) {
+                desc = sortDirection == "DESC";
+            } else {
+                desc = $th.hasClass('sort_up') || (!$th.hasClass('sort_down') && _status.sort == "DESC");
+            }
+
+            if (desc) {
+                $th.removeClass('sort_up');
+                $th.addClass('sort_down');
+                _status.sort = "DESC";
+            } else {
+                $th.removeClass('sort_down');
+                $th.addClass('sort_up');
+                _status.sort = "ASC";
+            }
+
+        }
+    }
 
 
     function _handlePagination(jsonArray) {
@@ -537,7 +561,7 @@ function tablePopulator($element, options) {
             _status.query = query;
             _fetchData();
         },
-        reload: function() {
+        reload: function () {
             _reload();
         }
     }
