@@ -137,6 +137,7 @@ This plugin automatically add two params, *order_by* and *sort* to the ajax call
 | save_table_status			| Boolean 	| no  | false	| Set to true if you want to save status table in a browser database between pages
 | save_table_status_store_key			| String 	| no  | 	| (When save_table_status is enabled) Key to store on browser repository
 | save_table_session_expiration			| Boolean 	| no  | false	| (When save_table_status is enabled) Set to true if you want to save only in session scope
+| mapResultOnReceive	    | Function 	| no  | 		| Triggered when results obtained from server and triggered before any render action,it must return  the transformed result
 | beforeRender				| Function 	| no  | 		| Triggered before render the results obtained
 | afterRender				| Function 	| no  | 		| Triggered after render the results obtained ( if you want to apply javascript plugins to decorate for example )
 

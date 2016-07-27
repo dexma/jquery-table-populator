@@ -85,6 +85,9 @@ function tablePopulator($element, options) {
         row_mapper: function (json_element, row_element) {
             alert("please implement row_mapper function to print results")
         },
+        mapResultOnReceive: function (jsonData) {
+          return jsonData;
+        },
         beforeRender: function (jsonData) {
         },
         afterRender: function (jsonData) {
@@ -280,6 +283,7 @@ function tablePopulator($element, options) {
             dataType: "json",
             success: function (data) {
                 _hideLoading();
+                var data = _options.mapResultOnReceive(data);
                 var finalData = _handlePagination(data);
                 var rows = _parseResponse(finalData);
                 _options.beforeRender(finalData);
